@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LogicLab | Pemeriksa Proposisi</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-mark">L</div>
+
+            <div>
+                <div class="brand-name">LogicLab</div>
+                <div class="brand-sub">Laboratorium Matematika Diskrit</div>
+            </div>
+        </div>
+
+
+        <nav>
+
+            <button class="nav-item active" data-target="analyzer">
+                <span>⌘</span>
+                Pemeriksa Logika
+            </button>
+
+            <button class="nav-item" data-target="examples">
+                <span>◫</span>
+                Contoh
+            </button>
+
+            <button class="nav-item" data-target="concepts">
+                <span>?</span>
+                Konsep
+            </button>
+
+            <button class="nav-item" data-target="history">
+                <span>↺</span>
+                Riwayat
+            </button>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="mini-card">
+
+                <span class="mini-dot"></span>
+
+                <div>
+                    <strong>Mesin Logika</strong>
+                    <small>Siap digunakan</small>
+                </div>
+
+            </div>
+
+            <div class="version">
+                LogicLab v1.0
+            </div>
+
+        </div>
+
+    </aside>
+
+
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <div>
+
+                <p class="eyebrow">
+                    MATEMATIKA DISKRIT
+                </p>
+
+                <h1>
+                    Pemeriksa Proposisi Logika
+                </h1>
+
+            </div>
+
+
+            <div class="top-actions">
+
+                <span class="status">
+                    <i></i>
+                    Sistem Siap
+                </span>
+
+                <button id="clearAll" class="ghost-btn">
+                    Atur Ulang
+                </button>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- STATISTIK -->
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+
+                <div class="stat-icon orange">
+                    ∑
+                </div>
+
+                <div>
+                    <small>Total Analisis</small>
+                    <strong id="statTotal">0</strong>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon green">
+                    ✓
+                </div>
+
+                <div>
+                    <small>Tautologi</small>
+                    <strong id="statTautology">0</strong>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon red">
+                    ×
+                </div>
+
+                <div>
+                    <small>Kontradiksi</small>
+                    <strong id="statContradiction">0</strong>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon yellow">
+                    ◐
+                </div>
+
+                <div>
+                    <small>Kontingensi</small>
+                    <strong id="statContingency">0</strong>
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- PEMERIKSA LOGIKA -->
+
+        <section id="analyzer" class="page-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <p class="eyebrow">
+                        01 / PEMERIKSA LOGIKA
+                    </p>
+
+                    <h2>
+                        Analisis Ekspresi Logika
+                    </h2>
+
+                    <p>
+                        Masukkan proposisi, lalu LogicLab akan membuat
+                        tabel kebenaran dan menentukan klasifikasinya.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="analyzer-grid">
+
+
+                <!-- INPUT -->
+
+                <div class="panel input-panel">
+
+                    <div class="panel-title">
+
+                        <div>
+
+                            <span class="number">
+                                01
+                            </span>
+
+                            <h3>
+                                Ekspresi Logika
+                            </h3>
+
+                        </div>
+
+                        <span class="hint">
+                            Gunakan A, B, C, D
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="expression-box">
+
+                        <input id="expression" type="text" value="A ∨ ¬A" autocomplete="off"
+                            placeholder="Contoh: A ∨ ¬A">
+
+                        <button id="analyzeBtn" class="primary-btn">
+                            Analisis
+                            <span>→</span>
+                        </button>
+
+                    </div>
+
+
+
+                    <div class="operator-row">
+
+                        <span class="operator-label">
+                            Operator
+                        </span>
+
+
+                        <button class="op-btn" data-op="¬">
+                            ¬
+                            <small>
+                                TIDAK
+                            </small>
+                        </button>
+
+
+                        <button class="op-btn" data-op="∧">
+                            ∧
+                            <small>
+                                DAN
+                            </small>
+                        </button>
+
+
+                        <button class="op-btn" data-op="∨">
+                            ∨
+                            <small>
+                                ATAU
+                            </small>
+                        </button>
+
+
+                        <button class="op-btn" data-op="→">
+                            →
+                            <small>
+                                IMPLIKASI
+                            </small>
+                        </button>
+
+
+                        <button class="op-btn" data-op="↔">
+                            ↔
+                            <small>
+                                BIKONDISIONAL
+                            </small>
+                        </button>
+
+
+                        <button class="op-btn" data-op="(">
+                            (
+                        </button>
+
+
+                        <button class="op-btn" data-op=")">
+                            )
+                        </button>
+
+                    </div>
+
+
+
+                    <div class="quick-section">
+
+                        <div class="quick-head">
+
+                            <span>
+                                Contoh Cepat
+                            </span>
+
+                            <button id="randomExample">
+                                Acak
+                            </button>
+
+                        </div>
+
+
+                        <div id="quickExamples" class="quick-list">
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- HASIL -->
+
+                <div class="panel result-panel">
+
+                    <div class="panel-title">
+
+                        <div>
+
+                            <span class="number">
+                                02
+                            </span>
+
+                            <h3>
+                                Klasifikasi
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div id="resultBadge" class="result-badge contingency">
+
+                        <div class="badge-symbol">
+                            ◐
+                        </div>
+
+
+                        <div>
+
+                            <small>
+                                HASIL ANALISIS
+                            </small>
+
+                            <strong id="classification">
+                                KONTINGENSI
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <p id="explanation" class="result-text">
+                        Ekspresi memiliki kombinasi nilai benar
+                        dan salah.
+                    </p>
+
+
+
+                    <div class="ratio">
+
+                        <div class="ratio-label">
+
+                            <span>
+                                Benar
+                            </span>
+
+                            <strong id="truePercent">
+                                50%
+                            </strong>
+
+                        </div>
+
+
+                        <div class="progress">
+                            <span id="trueBar"></span>
+                        </div>
+
+
+                        <div class="ratio-label">
+
+                            <span>
+                                Salah
+                            </span>
+
+                            <strong id="falsePercent">
+                                50%
+                            </strong>
+
+                        </div>
+
+
+                        <div class="progress muted">
+                            <span id="falseBar"></span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- TABEL KEBENARAN -->
+
+            <div class="panel table-panel">
+
+                <div class="panel-title">
+
+                    <div>
+
+                        <span class="number">
+                            03
+                        </span>
+
+                        <h3>
+                            Tabel Kebenaran
+                        </h3>
+
+                    </div>
+
+
+                    <span id="rowCount" class="table-meta">
+                        0 baris
+                    </span>
+
+                </div>
+
+
+                <div class="table-wrap">
+
+                    <table id="truthTable">
+                    </table>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- DETAIL ANALISIS -->
+
+            <div class="panel logic-panel">
+
+                <div class="panel-title">
+
+                    <div>
+
+                        <span class="number">
+                            04
+                        </span>
+
+                        <h3>
+                            Detail Analisis
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+                <div id="analysisDetails" class="detail-grid">
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- CONTOH -->
+
+        <section id="examples" class="page-section hidden">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <p class="eyebrow">
+                        02 / CONTOH
+                    </p>
+
+                    <h2>
+                        Kumpulan Contoh Ekspresi
+                    </h2>
+
+                    <p>
+                        Pilih contoh untuk langsung menjalankan analisis.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div id="exampleCards" class="example-grid">
+            </div>
+
+        </section>
+
+
+
+        <!-- KONSEP -->
+
+        <section id="concepts" class="page-section hidden">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <p class="eyebrow">
+                        03 / KONSEP
+                    </p>
+
+                    <h2>
+                        Konsep Logika
+                    </h2>
+
+                    <p>
+                        Ringkasan konsep Matematika Diskrit
+                        yang digunakan dalam LogicLab.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="concept-grid">
+
+
+                <article class="concept-card">
+
+                    <span>
+                        ¬
+                    </span>
+
+                    <h3>
+                        Negasi
+                    </h3>
+
+                    <p>
+                        Membalik nilai kebenaran suatu proposisi.
+                    </p>
+
+                </article>
+
+
+
+                <article class="concept-card">
+
+                    <span>
+                        ∧
+                    </span>
+
+                    <h3>
+                        Konjungsi
+                    </h3>
+
+                    <p>
+                        Bernilai benar jika kedua proposisi
+                        bernilai benar.
+                    </p>
+
+                </article>
+
+
+
+                <article class="concept-card">
+
+                    <span>
+                        ∨
+                    </span>
+
+                    <h3>
+                        Disjungsi
+                    </h3>
+
+                    <p>
+                        Bernilai benar jika minimal satu
+                        proposisi bernilai benar.
+                    </p>
+
+                </article>
+
+
+
+                <article class="concept-card">
+
+                    <span>
+                        →
+                    </span>
+
+                    <h3>
+                        Implikasi
+                    </h3>
+
+                    <p>
+                        Bernilai salah hanya ketika proposisi
+                        pertama benar dan proposisi kedua salah.
+                    </p>
+
+                </article>
+
+
+
+                <article class="concept-card">
+
+                    <span>
+                        ↔
+                    </span>
+
+                    <h3>
+                        Bikondisional
+                    </h3>
+
+                    <p>
+                        Bernilai benar ketika kedua proposisi
+                        memiliki nilai yang sama.
+                    </p>
+
+                </article>
+
+
+
+                <article class="concept-card special">
+
+                    <span>
+                        ?
+                    </span>
+
+                    <h3>
+                        Klasifikasi
+                    </h3>
+
+                    <p>
+                        Tautologi berarti semua hasil benar.
+                        Kontradiksi berarti semua hasil salah.
+                        Kontingensi berarti terdapat hasil benar
+                        dan salah.
+                    </p>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- RIWAYAT -->
+
+        <section id="history" class="page-section hidden">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <p class="eyebrow">
+                        04 / RIWAYAT
+                    </p>
+
+                    <h2>
+                        Riwayat Analisis
+                    </h2>
+
+                    <p>
+                        Daftar ekspresi yang sudah dianalisis.
+                    </p>
+
+                </div>
+
+
+                <button id="clearHistory" class="ghost-btn">
+                    Hapus Riwayat
+                </button>
+
+            </div>
+
+
+            <div class="panel history-panel">
+
+                <div id="historyList">
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <footer>
+            LogicLab · Project Matematika Diskrit
+        </footer>
+
+    </main>
+
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
