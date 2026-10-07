@@ -31,6 +31,7 @@ const examples = [
     }
 ];
 
+
 let history = [];
 
 let stats = {
@@ -40,26 +41,17 @@ let stats = {
     contingency: 0
 };
 
+
 const expressionInput = document.getElementById("expression");
-
-
-// ===============================
-// NORMALISASI EKSPRESI
-// ===============================
 
 function normalize(s) {
     return s
         .replace(/\s+/g, "")
         .replace(/!/g, "¬")
-        .replace(/\~/g, "¬")
+        .replace(/~/g, "¬")
         .replace(/&&/g, "∧")
         .replace(/\|\|/g, "∨");
 }
-
-
-// ===============================
-// MENCARI VARIABEL
-// ===============================
 
 function variablesOf(expr) {
     return [
@@ -68,11 +60,6 @@ function variablesOf(expr) {
         )
     ].sort();
 }
-
-
-// ===============================
-// MEMBUAT SEMUA KOMBINASI NILAI
-// ===============================
 
 function combinations(n) {
     const out = [];
@@ -90,11 +77,6 @@ function combinations(n) {
 
     return out;
 }
-
-
-// ===============================
-// MENGHILANGKAN KURUNG TERLUAR
-// ===============================
 
 function stripOuter(s) {
 
@@ -129,11 +111,6 @@ function stripOuter(s) {
     return s;
 }
 
-
-// ===============================
-// MENCARI OPERATOR UTAMA
-// ===============================
-
 function findMainOperator(s, ops) {
 
     let depth = 0;
@@ -156,11 +133,6 @@ function findMainOperator(s, ops) {
     return -1;
 }
 
-
-// ===============================
-// MENGHITUNG NILAI EKSPRESI
-// ===============================
-
 function evaluate(expr, ctx) {
 
     let s = stripOuter(expr);
@@ -168,13 +140,11 @@ function evaluate(expr, ctx) {
     if (!s) {
         throw new Error("Ekspresi kosong");
     }
-
     // Negasi
     if (s[0] === "¬") {
         return !evaluate(s.slice(1), ctx);
     }
-
-    // Bikondisional
+    // BIIMPLIKASI
     let idx = findMainOperator(s, ["↔"]);
 
     if (idx !== -1) {
@@ -183,7 +153,6 @@ function evaluate(expr, ctx) {
             evaluate(s.slice(idx + 1), ctx)
         );
     }
-
     // Implikasi
     idx = findMainOperator(s, ["→"]);
 
@@ -193,7 +162,6 @@ function evaluate(expr, ctx) {
             evaluate(s.slice(idx + 1), ctx)
         );
     }
-
     // Disjungsi
     idx = findMainOperator(s, ["∨"]);
 
@@ -203,7 +171,6 @@ function evaluate(expr, ctx) {
             evaluate(s.slice(idx + 1), ctx)
         );
     }
-
     // Konjungsi
     idx = findMainOperator(s, ["∧"]);
 
@@ -213,7 +180,6 @@ function evaluate(expr, ctx) {
             evaluate(s.slice(idx + 1), ctx)
         );
     }
-
     // Variabel
     if (/^[A-Za-z]$/.test(s)) {
         return Boolean(ctx[s]);
@@ -221,11 +187,6 @@ function evaluate(expr, ctx) {
 
     throw new Error("Format ekspresi tidak dikenali");
 }
-
-
-// ===============================
-// MENENTUKAN KLASIFIKASI
-// ===============================
 
 function classify(results) {
 
@@ -243,11 +204,6 @@ function classify(results) {
     return "contingency";
 }
 
-
-// ===============================
-// LABEL KLASIFIKASI
-// ===============================
-
 function label(type) {
 
     if (type === "tautology") {
@@ -261,11 +217,6 @@ function label(type) {
     return "KONTINGENSI";
 }
 
-
-// ===============================
-// PENJELASAN HASIL
-// ===============================
-
 function explain(type) {
 
     if (type === "tautology") {
@@ -278,11 +229,6 @@ function explain(type) {
 
     return "Ekspresi termasuk kontingensi karena terdapat kombinasi yang menghasilkan nilai benar dan nilai salah.";
 }
-
-
-// ===============================
-// PROSES ANALISIS
-// ===============================
 
 function analyze() {
 
@@ -345,12 +291,18 @@ function analyze() {
     renderResult(type, results);
     renderDetails(vars, expr, rows);
     addHistory(expr, type);
+
+    const tableSection = document.getElementById("truthTable");
+
+    if (tableSection) {
+        setTimeout(() => {
+            tableSection.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+        }, 100);
+    }
 }
-
-
-// ===============================
-// MENAMPILKAN TABEL KEBENARAN
-// ===============================
 
 function renderTable(vars, expr, rows) {
 
@@ -396,11 +348,6 @@ function renderTable(vars, expr, rows) {
     document.getElementById("rowCount").textContent =
         `${rows.length} baris`;
 }
-
-
-// ===============================
-// MENAMPILKAN HASIL
-// ===============================
 
 function renderResult(type, results) {
 
@@ -451,11 +398,6 @@ function renderResult(type, results) {
     updateStats();
 }
 
-
-// ===============================
-// DETAIL ANALISIS
-// ===============================
-
 function renderDetails(vars, expr, rows) {
 
     const results = rows.map(r => r.result);
@@ -482,7 +424,7 @@ function renderDetails(vars, expr, rows) {
     }
 
     if (expr.includes("↔")) {
-        opNames.push("BIKONDISIONAL");
+        opNames.push("BIIMPLIKASI");
     }
 
     document.getElementById("analysisDetails").innerHTML = `
@@ -518,11 +460,6 @@ function renderDetails(vars, expr, rows) {
     `;
 }
 
-
-// ===============================
-// MEMPERBARUI STATISTIK
-// ===============================
-
 function updateStats() {
 
     document.getElementById("statTotal").textContent =
@@ -537,11 +474,6 @@ function updateStats() {
     document.getElementById("statContingency").textContent =
         stats.contingency;
 }
-
-
-// ===============================
-// RIWAYAT ANALISIS
-// ===============================
 
 function addHistory(expr, type) {
 
@@ -561,7 +493,6 @@ function addHistory(expr, type) {
 
     renderHistory();
 }
-
 
 function renderHistory() {
 
@@ -595,11 +526,6 @@ function renderHistory() {
         </div>
     `).join("");
 }
-
-
-// ===============================
-// MENAMPILKAN CONTOH
-// ===============================
 
 function renderExamples() {
 
@@ -648,11 +574,6 @@ function renderExamples() {
         });
 }
 
-
-// ===============================
-// PINDAH HALAMAN
-// ===============================
-
 function showPage(id) {
 
     document
@@ -675,11 +596,6 @@ function showPage(id) {
         );
 }
 
-
-// ===============================
-// NAVIGASI
-// ===============================
-
 document
     .querySelectorAll(".nav-item")
     .forEach(btn => {
@@ -692,9 +608,6 @@ document
     });
 
 
-// ===============================
-// TOMBOL OPERATOR
-// ===============================
 
 document
     .querySelectorAll(".op-btn")
@@ -740,9 +653,6 @@ document
     });
 
 
-// ===============================
-// TOMBOL ANALISIS
-// ===============================
 
 document
     .getElementById("analyzeBtn")
@@ -750,9 +660,6 @@ document
         "click",
         analyze
     );
-
-
-// Tekan Enter untuk menganalisis
 
 expressionInput.addEventListener(
     "keydown",
@@ -764,11 +671,6 @@ expressionInput.addEventListener(
 
     }
 );
-
-
-// ===============================
-// ATUR ULANG SEMUA
-// ===============================
 
 document
     .getElementById("clearAll")
@@ -790,11 +692,6 @@ document
 
     });
 
-
-// ===============================
-// HAPUS RIWAYAT
-// ===============================
-
 document
     .getElementById("clearHistory")
     .addEventListener(
@@ -807,11 +704,6 @@ document
 
         }
     );
-
-
-// ===============================
-// CONTOH ACAK
-// ===============================
 
 document
     .getElementById("randomExample")
@@ -835,11 +727,8 @@ document
         }
     );
 
-
-// ===============================
-// JALANKAN SAAT WEBSITE DIBUKA
-// ===============================
-
 renderExamples();
 
 renderHistory();
+
+analyze();
